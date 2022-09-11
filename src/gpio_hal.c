@@ -42,7 +42,7 @@ uint8_t _pull[GH_PULL_COUNT] =
     [GH_PULL_DOWN] = GPIO_PULLDOWN,
 };
 
-uint8_t _mode[GH_MODE_COUNT] = 
+uint8_t _modes[GH_MODE_COUNT] = 
 {
     [GH_MODE_INPUT] = GPIO_MODE_INPUT,
     [GH_MODE_OUTPUT_PP] = GPIO_MODE_OUTPUT_PP,
@@ -57,10 +57,21 @@ GPIO_PinState _states[GH_STATE_COUNT] =
 
 void gpio_init(GPIOPort_e port, GH_Init_s* gpio)
 {
+    GPIO_InitTypeDef st_gpio;
+    GPIO_TypeDef* st_port = _ports[port];
 
+    st_gpio.Pin = _pins[gpio->pin];
+    st_gpio.Mode = _modes[gpio->mode];
+    st_gpio.Pull = _pull[gpio->pull];
+
+    HAL_GPIO_Init(st_port, &st_gpio);
 }
 
 void gpio_write(GPIOPort_e port, GPIOPin_e pin, GPIOState_e state)
 {
+    GPIO_TypeDef* st_port = _ports[port];
+    uint32_t st_pin = _pins[pin];
+    GPIO_PinState st_state = _states[state];
 
+    HAL_GPIO_WritePin(st_port, st_pin, st_state);
 }

@@ -1,3 +1,12 @@
+#include "src/LED.h"
+
+int main(void)
+{
+    ledInit();
+    ledOn();
+}
+
+#if 0
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_gpio.h"
 // #include "stm32f4xx_it.h"
@@ -22,3 +31,5 @@ int main(void)
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
     
 }
+
+#endif

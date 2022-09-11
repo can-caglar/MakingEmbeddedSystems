@@ -387,11 +387,6 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>LED.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\LED.h</FilePath>
-            </File>
-            <File>
               <FileName>LED.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\LED.c</FilePath>
@@ -405,6 +400,21 @@
               <FileName>gpio_hal.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\gpio_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>rcc_hal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\rcc_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>rcc_hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\rcc_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>LED.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\LED.h</FilePath>
             </File>
           </Files>
         </Group>
