@@ -13,17 +13,26 @@ void tearDown(void)
 
 }
 
-void test_LedCanBeEnabled(void)
+void test_LedInitWillInitialiseCorrectPort(void)
 {
-    GH_Init_s gpio = { 0 };
+    GPIOPort_e port = GH_PORT_D;
+    GH_Init_s gpio;
+    gpio.mode = GH_MODE_OUTPUT_PP;
+    gpio.pull = GH_PULL_NONE;
+    gpio.pin = GH_PIN_13;
+
     gpio_init_Expect(GH_PORT_D, &gpio);
+
     ledInit();
 }
 
-/*
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal_gpio.h"
+void test_LedOnTest(void)
+{
+    gpio_write_Expect(GH_PORT_D, GH_PIN_13, GH_STATE_SET);
+    ledOn();
+}
 
+/*
 Note:
 
 ORANGE  PD13
