@@ -1,5 +1,6 @@
 --cpu=Cortex-M4.fp
 ".\objects\main.o"
+".\objects\led.o"
 ".\objects\stm32f4xx_hal.o"
 ".\objects\stm32f4xx_hal_cortex.o"
 ".\objects\stm32f4xx_hal_exti.o"
