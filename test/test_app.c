@@ -1,3 +1,16 @@
+#include "unity.h"
+#include "app.h"
+#include "mock_system_hal.h"
+#include "mock_button.h"
+#include "mock_LED.h"
+
+void test_appInitialisesHAL()
+{
+    //system_init_Expect();
+
+    run_app();
+}
+
 /*
 Note:
 

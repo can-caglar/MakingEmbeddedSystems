@@ -80,6 +80,7 @@ typedef void(*irq_func)(void);
 
 void gpio_init(GPIOPort_e port, GH_Init_s* gpio);
 void gpio_write(GPIOPort_e port, GPIOPin_e pin, GPIOState_e state);
+GPIOState_e gpio_read(GPIOPort_e port, GPIOPin_e pin);
 void gpio_register_interrupt_callback(GPIOPin_e pin, irq_func func);
 
 #endif

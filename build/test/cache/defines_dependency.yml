@@ -11,3 +11,11 @@ src/button.c:
 - TEST
 build/test/mocks/mock_nvic_hal.c:
 - TEST
+build/test/mocks/mock_system_hal.c:
+- TEST
+build/test/mocks/mock_button.c:
+- TEST
+build/test/mocks/mock_LED.c:
+- TEST
+src/app.c:
+- TEST

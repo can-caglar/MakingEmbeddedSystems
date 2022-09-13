@@ -2,7 +2,6 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_gpio.h"
 #include <stdint.h>
-#include "global.h"
 
 /* Translate from adapter to ST HAL */
 
@@ -36,14 +35,14 @@ static uint32_t _pins[GH_PIN_COUNT] =
     [GH_PIN_15] = GPIO_PIN_15,
 };
 
-static uint8_t _pull[GH_PULL_COUNT] = 
+static uint32_t _pull[GH_PULL_COUNT] = 
 {
     [GH_PULL_NONE] = GPIO_NOPULL,
     [GH_PULL_UP] = GPIO_PULLUP,
     [GH_PULL_DOWN] = GPIO_PULLDOWN,
 };
 
-static uint8_t _modes[GH_MODE_COUNT] = 
+static uint32_t _modes[GH_MODE_COUNT] = 
 {
     [GH_MODE_INPUT] = GPIO_MODE_INPUT,
     [GH_MODE_OUTPUT_PP] = GPIO_MODE_OUTPUT_PP,
@@ -78,6 +77,15 @@ void gpio_write(GPIOPort_e port, GPIOPin_e pin, GPIOState_e state)
     HAL_GPIO_WritePin(_ports[port], _pins[pin], _states[state]);
 }
 
+GPIOState_e gpio_read(GPIOPort_e port, GPIOPin_e pin)
+{
+    if (HAL_GPIO_ReadPin(port, pin) == GPIO_PIN_RESET)
+    {
+        return GH_STATE_RESET;
+    }
+    return GH_STATE_SET;
+}
+
 void gpio_register_interrupt_callback(GPIOPin_e pin, irq_func func)
 {
     _callbacks[pin] = func;
@@ -88,14 +96,18 @@ void EXTI0_IRQHandler(void)
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
 }
 
-void HAL_GPIO_EXTI_Callback(uint16_t pin)
+static void gpio_exti_callback(uint16_t pin)
 {
-    gpio_exti_callback(_pins[pin]);
+    for (uint8_t i = 0; i < GH_PIN_COUNT; i++)
+    {
+        if ((pin >> i) & 1)
+        {
+            _callbacks[i]();
+        }
+    }
 }
 
-/********* Private functions *********/
-
-STATIC void gpio_exti_callback(GPIOPin_e pin)
+void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
-    _callbacks[pin]();
+    gpio_exti_callback(pin);
 }

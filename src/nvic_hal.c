@@ -4,11 +4,9 @@
 static IRQn_Type _irqs[NVIC_COUNT] = 
 {
     [NVIC_EXTI0] = EXTI0_IRQn
-}
+};
 
 void nvic_enable_irq(NVIC_IRQ_e irq)
 {
     HAL_NVIC_EnableIRQ(_irqs[irq]);
 }
-
-// TODO: Add the callback and irq handlers now: HAL_GPIO_EXTI_Callback, EXTI0_IRQHandler

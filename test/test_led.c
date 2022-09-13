@@ -28,19 +28,19 @@ void test_LedInitWillInitialiseCorrectPort(void)
     rcc_gpiod_clk_enable_Expect();
     gpio_init_Expect(GH_PORT_D, &gpio);
 
-    ledInit();
+    led_init();
 }
 
 void test_LedOnTest(void)
 {
     gpio_write_Expect(GH_PORT_D, GH_PIN_13, GH_STATE_SET);
-    ledOn();
+    led_on();
 }
 
 void test_LedOffTest(void)
 {
     gpio_write_Expect(GH_PORT_D, GH_PIN_13, GH_STATE_RESET);
-    ledOff();
+    led_off();
 }
 
 /*

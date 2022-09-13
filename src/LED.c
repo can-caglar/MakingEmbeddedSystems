@@ -7,7 +7,7 @@ ORANGE  PD13
 GREEN   PD12
 */
 
-void ledInit(void)
+void led_init(void)
 {
     GPIOPort_e port = GH_PORT_D;
     GH_Init_s gpio;
@@ -20,12 +20,12 @@ void ledInit(void)
     gpio_init(port, &gpio);
 }
 
-void ledOn(void)
+void led_on(void)
 {
     gpio_write(GH_PORT_D, GH_PIN_13, GH_STATE_SET);
 }
 
-void ledOff(void)
+void led_off(void)
 {
     gpio_write(GH_PORT_D, GH_PIN_13, GH_STATE_RESET);
 }

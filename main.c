@@ -1,23 +1,29 @@
-#if 0
+#if 1
 #include "src/LED.h"
+#include "src/button.h"
+#include "src/system_hal.h"
+
+#include "stm32f4xx_hal.h"
 
 int main(void)
 {
+    system_init();
     ledInit();
     ledOn();
     ledOff();
     ledOn();
-    #if 0
-    // HAL_Init(); ?
-    
-    ledInit();
-    ledOn();
-    #endif
+    button_init();
+
+    while(1)
+    {
+        volatile int aa = get_tick();
+        volatile int a = 1;
+    }
 }
 
 #endif
 
-#if 1
+#if 0
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_gpio.h"
 // #include "stm32f4xx_it.h"
