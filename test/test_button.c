@@ -16,9 +16,8 @@ void test_buttonInit(void)
 
     rcc_gpioa_clk_enable_Expect();
     gpio_init_Expect(GH_PORT_A, &gpio);
-    gpio_register_interrupt_callback_Expect(GH_PIN_0, button_irq); // TODO, continue with this callback
+    gpio_register_interrupt_callback_Expect(GH_PIN_0, button_irq);
     nvic_enable_irq_Expect(NVIC_EXTI0);
-
     button_init();
 }
 

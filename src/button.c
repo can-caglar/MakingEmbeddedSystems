@@ -22,5 +22,6 @@ void button_init(void)
 {
     rcc_gpioa_clk_enable();
     gpio_init(_port, &_gpio);
+    gpio_register_interrupt_callback(_gpio.pin, button_irq);
     nvic_enable_irq(NVIC_EXTI0);
 }

@@ -83,13 +83,6 @@ void gpio_register_interrupt_callback(GPIOPin_e pin, irq_func func)
     _callbacks[pin] = func;
 }
 
-/********* Private functions *********/
-
-STATIC void gpio_exti_callback(GPIOPin_e pin)
-{
-    _callbacks[pin]();
-}
-
 void EXTI0_IRQHandler(void)
 {
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
@@ -98,4 +91,11 @@ void EXTI0_IRQHandler(void)
 void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
     gpio_exti_callback(_pins[pin]);
+}
+
+/********* Private functions *********/
+
+STATIC void gpio_exti_callback(GPIOPin_e pin)
+{
+    _callbacks[pin]();
 }
