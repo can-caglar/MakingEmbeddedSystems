@@ -6,6 +6,7 @@
 ".\objects\button.o"
 ".\objects\nvic_hal.o"
 ".\objects\system_hal.o"
+".\objects\controller.o"
 ".\objects\stm32f4xx_hal.o"
 ".\objects\stm32f4xx_hal_cortex.o"
 ".\objects\stm32f4xx_hal_exti.o"

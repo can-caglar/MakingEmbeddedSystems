@@ -48,6 +48,7 @@ static uint32_t _modes[GH_MODE_COUNT] =
     [GH_MODE_OUTPUT_PP] = GPIO_MODE_OUTPUT_PP,
     [GH_MODE_OUTPUT_OD] = GPIO_MODE_OUTPUT_OD,
     [GH_MODE_IT_RISING_FALLING] = GPIO_MODE_IT_RISING_FALLING,
+    [GH_MODE_IT_RISING] = GPIO_MODE_IT_RISING,
 };
 
 static GPIO_PinState _states[GH_STATE_COUNT] = 
@@ -77,9 +78,14 @@ void gpio_write(GPIOPort_e port, GPIOPin_e pin, GPIOState_e state)
     HAL_GPIO_WritePin(_ports[port], _pins[pin], _states[state]);
 }
 
+void gpio_toggle(GPIOPort_e port, GPIOPin_e pin)
+{
+    HAL_GPIO_TogglePin(_ports[port], _pins[pin]);
+}
+
 GPIOState_e gpio_read(GPIOPort_e port, GPIOPin_e pin)
 {
-    if (HAL_GPIO_ReadPin(port, pin) == GPIO_PIN_RESET)
+    if (HAL_GPIO_ReadPin(_ports[port], _pins[pin]) == GPIO_PIN_RESET)
     {
         return GH_STATE_RESET;
     }

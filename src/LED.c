@@ -29,3 +29,8 @@ void led_off(void)
 {
     gpio_write(GH_PORT_D, GH_PIN_13, GH_STATE_RESET);
 }
+
+void led_toggle(void)
+{
+    gpio_toggle(GH_PORT_D, GH_PIN_13);
+}

@@ -451,6 +451,16 @@
               <FileType>5</FileType>
               <FilePath>.\src\system_hal.h</FilePath>
             </File>
+            <File>
+              <FileName>controller.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\controller.h</FilePath>
+            </File>
+            <File>
+              <FileName>controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\controller.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

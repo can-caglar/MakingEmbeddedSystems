@@ -41,11 +41,11 @@ typedef enum GPIOMode_e
     GH_MODE_OUTPUT_PP,
     GH_MODE_OUTPUT_OD,
     GH_MODE_IT_RISING_FALLING,
+    GH_MODE_IT_RISING,
     #if 0
     GH_MODE_AF_PP,
     GH_MODE_AF_OD,
     GH_MODE_ANALOG,
-    GH_MODE_IT_RISING,
     GH_MODE_IT_FALLING,
     GH_MODE_EVT_RISING,
     GH_MODE_EVT_FALLING,
@@ -80,6 +80,7 @@ typedef void(*irq_func)(void);
 
 void gpio_init(GPIOPort_e port, GH_Init_s* gpio);
 void gpio_write(GPIOPort_e port, GPIOPin_e pin, GPIOState_e state);
+void gpio_toggle(GPIOPort_e port, GPIOPin_e pin);
 GPIOState_e gpio_read(GPIOPort_e port, GPIOPin_e pin);
 void gpio_register_interrupt_callback(GPIOPin_e pin, irq_func func);
 

@@ -8,10 +8,25 @@
 
 extern void button_irq(void);
 
+// helpers
+static void fake_press_button(void);
+
+static int testVar = 0;
+void testFunc(void)
+{
+    testVar = 1;
+}
+
+void tearDown(void)
+{
+    // unity teardown
+    button_close();
+}
+
 void test_buttonInit(void)
 {
     GH_Init_s gpio = { 0 };
-    gpio.mode = GH_MODE_IT_RISING_FALLING;
+    gpio.mode = GH_MODE_IT_RISING;
     gpio.pin = GH_PIN_0;
     gpio.pull = GH_PULL_NONE;
 
@@ -25,6 +40,9 @@ void test_buttonInit(void)
 
 void test_button_pressed_debounce(void)
 {
+    testVar = 0;
+    button_register_observer(testFunc);
+
     get_tick_ExpectAndReturn(0);
     button_irq();
     TEST_ASSERT_EQUAL_INT(0, button_pressed());
@@ -34,8 +52,40 @@ void test_button_pressed_debounce(void)
     button_irq();
     TEST_ASSERT_EQUAL_INT(0, button_pressed());
 
-    // 50 ms later
+    // 50 ms later, press shall go through
+    TEST_ASSERT_EQUAL_INT(0, testVar);
     get_tick_ExpectAndReturn(60);
+    gpio_read_ExpectAndReturn(GH_PORT_A, GH_PIN_0, 1);
+    button_irq();
+    TEST_ASSERT_EQUAL_INT(1, button_pressed());
+    TEST_ASSERT_EQUAL_INT(1, testVar);
+
+    // 10 ms later
+    get_tick_ExpectAndReturn(70);
+    button_irq();
+    TEST_ASSERT_EQUAL_INT(1, button_pressed());
+}
+
+
+void test_button_pressed_callback(void)
+{
+    testVar = 0;
+    button_register_observer(testFunc);
+
+    TEST_ASSERT_EQUAL_INT(0, testVar);
+
+    fake_press_button();
+    
+    TEST_ASSERT_EQUAL_INT(1, testVar);
+}
+
+void fake_press_button(void)
+{
+    get_tick_ExpectAndReturn(0);
+    button_irq();
+    TEST_ASSERT_EQUAL_INT(0, button_pressed());
+
+    get_tick_ExpectAndReturn(50);
     gpio_read_ExpectAndReturn(GH_PORT_A, GH_PIN_0, 1);
     button_irq();
     TEST_ASSERT_EQUAL_INT(1, button_pressed());

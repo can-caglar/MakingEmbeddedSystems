@@ -43,6 +43,12 @@ void test_LedOffTest(void)
     led_off();
 }
 
+void test_LedToggle(void)
+{
+    gpio_toggle_Expect(GH_PORT_D, GH_PIN_13);
+    led_toggle();
+}
+
 /*
 - [x] Led can be turned on
 - [x] Led can be turned off

@@ -19,3 +19,5 @@ build/test/mocks/mock_LED.c:
 - TEST
 src/app.c:
 - TEST
+src/controller.c:
+- TEST
