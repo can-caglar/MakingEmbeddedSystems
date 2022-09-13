@@ -7,3 +7,7 @@ test/helper/helper.c:
 - TEST
 build/test/mocks/mock_rcc_hal.c:
 - TEST
+src/button.c:
+- TEST
+build/test/mocks/mock_nvic_hal.c:
+- TEST

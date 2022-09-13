@@ -2,10 +2,11 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_gpio.h"
 #include <stdint.h>
+#include "global.h"
 
 /* Translate from adapter to ST HAL */
 
-GPIO_TypeDef* _ports[GH_PORT_COUNT] = 
+static GPIO_TypeDef* _ports[GH_PORT_COUNT] = 
 {
     [GH_PORT_A] = GPIOA,
     [GH_PORT_B] = GPIOB,
@@ -15,7 +16,7 @@ GPIO_TypeDef* _ports[GH_PORT_COUNT] =
     [GH_PORT_F] = GPIOF,
 };
 
-uint32_t _pins[GH_PIN_COUNT] = 
+static uint32_t _pins[GH_PIN_COUNT] = 
 {
     [GH_PIN_0] = GPIO_PIN_0,
     [GH_PIN_1] = GPIO_PIN_1,
@@ -35,25 +36,30 @@ uint32_t _pins[GH_PIN_COUNT] =
     [GH_PIN_15] = GPIO_PIN_15,
 };
 
-uint8_t _pull[GH_PULL_COUNT] = 
+static uint8_t _pull[GH_PULL_COUNT] = 
 {
     [GH_PULL_NONE] = GPIO_NOPULL,
     [GH_PULL_UP] = GPIO_PULLUP,
     [GH_PULL_DOWN] = GPIO_PULLDOWN,
 };
 
-uint8_t _modes[GH_MODE_COUNT] = 
+static uint8_t _modes[GH_MODE_COUNT] = 
 {
     [GH_MODE_INPUT] = GPIO_MODE_INPUT,
     [GH_MODE_OUTPUT_PP] = GPIO_MODE_OUTPUT_PP,
     [GH_MODE_OUTPUT_OD] = GPIO_MODE_OUTPUT_OD,
+    [GH_MODE_IT_RISING_FALLING] = GPIO_MODE_IT_RISING_FALLING,
 };
 
-GPIO_PinState _states[GH_STATE_COUNT] = 
+static GPIO_PinState _states[GH_STATE_COUNT] = 
 {
     [GH_STATE_RESET] = GPIO_PIN_RESET,
     [GH_STATE_SET] = GPIO_PIN_SET
 };
+
+static irq_func _callbacks[GH_PIN_COUNT];
+
+/* Public functions */
 
 void gpio_init(GPIOPort_e port, GH_Init_s* gpio)
 {
@@ -69,9 +75,27 @@ void gpio_init(GPIOPort_e port, GH_Init_s* gpio)
 
 void gpio_write(GPIOPort_e port, GPIOPin_e pin, GPIOState_e state)
 {
-    GPIO_TypeDef* st_port = _ports[port];
-    uint32_t st_pin = _pins[pin];
-    GPIO_PinState st_state = _states[state];
+    HAL_GPIO_WritePin(_ports[port], _pins[pin], _states[state]);
+}
 
-    HAL_GPIO_WritePin(st_port, st_pin, st_state);
+void gpio_register_interrupt_callback(GPIOPin_e pin, irq_func func)
+{
+    _callbacks[pin] = func;
+}
+
+/********* Private functions *********/
+
+STATIC void gpio_exti_callback(GPIOPin_e pin)
+{
+    _callbacks[pin]();
+}
+
+void EXTI0_IRQHandler(void)
+{
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t pin)
+{
+    gpio_exti_callback(_pins[pin]);
 }
