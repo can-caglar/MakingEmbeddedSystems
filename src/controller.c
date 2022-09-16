@@ -5,6 +5,7 @@
 #include "global.h"
 
 #if 0
+// For led on when button held and off when not
 STATIC void handleButtonMomentary(void)
 {
     if (button_pressed())

@@ -6,6 +6,6 @@ int main(void)
 
     while(1)
     {
-        volatile int a = 1;
+        volatile int a = 1;  // just for setting breakpoints.
     }
 }
